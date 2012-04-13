@@ -8,6 +8,7 @@ if(isset($_REQUEST['submit']))
 		if($_REQUEST['date']<=date('Y-m-d')) // if selected is in future or not?
 		{
 		$flag = '0'; // if it is today or before, make it expired.
+		$message = "Reminder is set expired.";
 		}
 		else
 		{
@@ -24,7 +25,7 @@ if(isset($_REQUEST['submit']))
 	}
 }
 $Result = $sql->dbQuery("select * from reminders order by id desc");
-$expired_Result = $sql->dbQuery("SELECT * FROM `reminders` WHERE flag = '0' "); // select expired reminders
+$Reminder_Result = $sql->dbQuery("SELECT * FROM `reminders` WHERE flag = '1' "); // select expired reminders
 ?>
 <!DOCTYPE html >
 <html>
@@ -50,29 +51,32 @@ $expired_Result = $sql->dbQuery("SELECT * FROM `reminders` WHERE flag = '0' "); 
 <div id="Container" >
 	<div id="tabs">
 		<ul>
-			<li><a href="#tabs-1">All Reminders</a></li>
+			<li><a href="#tabs-1">Reminders</a></li>
 			<li><a href="#tabs-2">Add Reminder</a></li>
-			<li><a href="#tabs-3">Expired Reminders</a></li>
+			<li><a href="#tabs-3">All Reminders</a></li>
 		</ul>
 		
 		<div id="tabs-1">
-		<?php if(isset($message)){?><div id="message"><?php echo $message;?></div><?php }?>
-				<?php 					
-			while($row = $sql->dbFetchAssoc($Result)){?>
-			<div id="reminder"  >
-			<a href="edit.php?id=<?php echo $row['id'];?>" <?php if($row['flag']== 0){?>style="color:#999999;" <?php }?>>
-			<?php echo $row['title'];?>
-			</a>
-			
-			<p <?php if($row['flag']== 0){?>style="color:#999999;" <?php }?>>
-			<?php if($row['flag']== 1){echo "set on ".$row['date'];}else{ echo "expired on ".$row['date'];}?>
-			</p>
-			
-			</div>
-			<?php }
-			$sql->dbFreeResult($Result); ?>		
+		<?php if(isset($message)){?><div id="message"><?php echo $message;?></div><?php }
+		
+			$numRows = $sql->dbNumRows($Reminder_Result);
+			if($numRows > 0)
+			{	
+				while($Reminder = $sql->dbFetchAssoc($Reminder_Result)){?>
+				<div id="reminder"  >
+				<a href="edit.php?id=<?php echo $Reminder['id']?>"><?php echo $Reminder['title'];?></a>
+				<p ><?php echo "set on ".$Reminder['date'];?></p>
+				
+				</div>
+				<?php 	}
+			}
+			else{
+			echo "There are no Reminders set";
+			}
+			$sql->dbFreeResult($Reminder_Result);?>
 		</div>	
 		
+			
 		<div id="tabs-2">		
 				<form name="add_reminder" action="" method="post">
 					<table width="60%" border="0">
@@ -100,23 +104,24 @@ $expired_Result = $sql->dbQuery("SELECT * FROM `reminders` WHERE flag = '0' "); 
 		</div>
 		
 		<div id="tabs-3">
-			<?php 	
-			$numRows = $sql->dbNumRows($expired_Result);
-			if($numRows > 0)
-			{	
-				while($expired = $sql->dbFetchAssoc($expired_Result)){?>
-				<div id="reminder"  >
-				<a href="edit.php?id=<?php echo $expired['id']?>"><?php echo $expired['title'];?></a>
-				<p ><?php echo "expired on ".$expired['date'];?></p>
-				
-				</div>
-				<?php 	}
-			}
-			else{
-			echo "There are no expired Reminders";
-			}
-			$sql->dbFreeResult($expired_Result);?>
-		</div>		
+					<?php 					
+			while($row = $sql->dbFetchAssoc($Result)){?>
+			<div id="reminder"  >
+			<a href="edit.php?id=<?php echo $row['id'];?>" <?php if($row['flag']== 0){?>style="color:#999999;" <?php }?>>
+			<?php echo $row['title'];?>
+			</a>
+			
+			<p <?php if($row['flag']== 0){?>style="color:#999999;" <?php }?>>
+			<?php if($row['flag']== 1){echo "set on ".$row['date'];}else{ echo "expired on ".$row['date'];}?>
+			</p>
+			
+			</div>
+			<?php }
+			$sql->dbFreeResult($Result); ?>		
+		</div>	
+	
+		
+			
 		
 	</div>
 </div>
