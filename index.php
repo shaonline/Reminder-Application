@@ -3,18 +3,25 @@ require_once('connect.php'); // import page
 
 if(isset($_REQUEST['submit']))
 {
-	if($_REQUEST['date']<=date('Y-m-d')) // if selected is in future or not?
+	if(!empty($_REQUEST['title']) & !empty($_REQUEST['date']))
 	{
-	$flag = '0'; // if it is today or before, make it expired.
+		if($_REQUEST['date']<=date('Y-m-d')) // if selected is in future or not?
+		{
+		$flag = '0'; // if it is today or before, make it expired.
+		}
+		else
+		{
+		$flag = '1'; 
+		}
+		$title = addslashes(ucwords($_REQUEST['title']));
+		$desc = addslashes(ucfirst($_REQUEST['description']));	
+	
+		$sql->dbQuery("insert into reminders (title,description,date,flag)values('$title','$desc','$_REQUEST[date]','$flag')"); // add reminder
 	}
 	else
 	{
-	$flag = '1'; 
+	$message = "Title or date missing, no reminder added";
 	}
-	$title = addslashes(ucwords($_REQUEST['title']));
-	$desc = addslashes(ucfirst($_REQUEST['description']));	
-
-$sql->dbQuery("insert into reminders (title,description,date,flag)values('$title','$desc','$_REQUEST[date]','$flag')"); // add reminder
 }
 $Result = $sql->dbQuery("select * from reminders order by id desc");
 $expired_Result = $sql->dbQuery("SELECT * FROM `reminders` WHERE flag = '0' "); // select expired reminders
@@ -22,7 +29,7 @@ $expired_Result = $sql->dbQuery("SELECT * FROM `reminders` WHERE flag = '0' "); 
 <!DOCTYPE html >
 <html>
 <head>
-<meta "charset=UTF-8" />
+<meta content="charset=UTF-8" />
 <title>Reminder Application</title>
 <link rel="stylesheet" href="css/style.css" />
 <link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.18.custom.css">
@@ -49,6 +56,7 @@ $expired_Result = $sql->dbQuery("SELECT * FROM `reminders` WHERE flag = '0' "); 
 		</ul>
 		
 		<div id="tabs-1">
+		<?php if(isset($message)){?><div id="message"><?php echo $message;?></div><?php }?>
 				<?php 					
 			while($row = $sql->dbFetchAssoc($Result)){?>
 			<div id="reminder"  >

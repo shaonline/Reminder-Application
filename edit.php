@@ -2,20 +2,26 @@
 
 if(isset($_REQUEST['submit']))
 {
-	if($_REQUEST['date']<=date('Y-m-d'))
+	if(!empty($_REQUEST['title']) & !empty($_REQUEST['date']))
 	{
-	$flag = '0';
+		if($_REQUEST['date']<=date('Y-m-d'))
+		{
+		$flag = '0';
+		}
+		else
+		{
+		$flag = '1';
+		}
+		
+		$title = addslashes(ucwords($_REQUEST['title']));
+		$desc = addslashes(ucfirst($_REQUEST['description']));	
+		
+	$sql->dbQuery("update reminders set title='$title',description='$desc',date='$_REQUEST[date]',flag='$flag' where id = '$_GET[id]'");
+	$Message = 'Updated!';
 	}
-	else
-	{
-	$flag = '1';
+	else {
+	$Message = 'Updation unsuccesful, Title or date missing!';
 	}
-	
-	$title = addslashes(ucwords($_REQUEST['title']));
-	$desc = addslashes(ucfirst($_REQUEST['description']));	
-	
-$sql->dbQuery("update reminders set title='$title',description='$desc',date='$_REQUEST[date]',flag='$flag' where id = '$_GET[id]'");
-$Message = 'Updated!';
 
 }
 $result = $sql->dbQuery("select * from reminders where id = '$_GET[id]'");
@@ -25,7 +31,7 @@ $sql->dbFreeResult($result);?>
 <!DOCTYPE html>
 <html>
 <head>
-<meta content="charset=utf-8" />
+<meta content="charset=UTF-8" />
 <title>Edit Reminder</title>
 <link rel="stylesheet" href="css/style.css" />
 <link rel="stylesheet" href="css/ui-lightness/jquery-ui-1.8.18.custom.css">
@@ -57,7 +63,7 @@ $sql->dbFreeResult($result);?>
 			<p><?php echo $row['title']?></p>
 			<p><?php echo $row['description']?></p>
 			<p><?php echo $row['date']?></p>
-			<p><a href="delete.php?id=<?php echo $row['id'];?>" onclick="return confirm('Are you sure you want to delete reminder?')">Delete</a></p>
+			<p><a href="delete.php?id=<?php echo $row['id'];?>" onClick="return confirm('Are you sure you want to delete reminder?')" style="color:#FF9900;">Delete</a></p>
 		</div>
 		
 		<div id="tabs-2">
