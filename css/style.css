@@ -1,0 +1,52 @@
+*{
+margin:0px;
+padding:0px;
+}
+body{
+margin-top:20px;
+font-family:Tahoma;
+font-size:12px;
+}
+#Container{
+width:700px;
+margin-left:280px;
+height:auto;
+/*border-:1px solid #999999;*/
+}
+#message{
+text-align:center;
+font-family:Tahoma;
+font-size:14px;
+color:#ff791b;
+}
+#reminder{
+height:25px;
+font-family:Trebuchet MS;
+font-size:14px;
+color: #333333;
+border:1px solid #CCCCCC;
+margin-bottom:1px;
+padding:5px;
+background-color:#EEE;
+-webkit-border-radius:5px;
+}
+#reminder a{
+text-decoration:none;
+color: #1C94C4;
+font-weight:bold;
+}
+#reminder :hover{
+text-decoration:underline;
+}
+#reminder p{
+font-family:Arial;
+font-size:11px;
+color:#698ED2;
+float:right;
+height:10px;
+font-style:italic;
+}
+
+
+
+
