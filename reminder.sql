@@ -38,13 +38,3 @@ CREATE TABLE IF NOT EXISTS `reminders` (
 -- Dumping data for table `reminders`
 --
 
-INSERT INTO `reminders` (`id`, `title`, `description`, `date`, `flag`) VALUES
-(13, 'Meeting', 'This is the meeting i am going to have at office.', '2012-04-16', 1),
-(16, 'Party', 'Its a birth day party ', '2012-04-11', 0),
-(15, 'BirthDay', 'its karl''s birthday party', '2012-04-13', 1),
-(17, 'Lecture', 'there is a introductory lecture tomorrow.', '2012-04-13', 1),
-(18, 'Another', 'Another description ', '2012-04-12', 0),
-(19, 'Coming Event', 'Its a coming event.', '2012-04-18', 1),
-(23, 'Doctor Appointment', 'Tomorrow i have to go for ear checkup.', '2012-04-14', 1),
-(22, 'Reminder Title', 'This is the description.', '2012-04-08', 0),
-(24, 'Send Email', 'I have to send email to karl about work.', '2012-04-13', 1);
