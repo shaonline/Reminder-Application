@@ -14,9 +14,9 @@ if($NumOfResult > 0) // check, if there is some result?
 {
 	while($Reminder = $sql->dbFetchAssoc($Reminder_Result))
 	{
-		$message .= "Event : ".$Reminder['title']."\n";
-		$message .= "Date : ".date('D M j, Y',strtotime($Reminder['date']))."\n";
-		$message .= $Reminder['description']."\n\n";
+		$message  = "Event : ".$Reminder['title'];
+		$message .= "\nDate : ".date('D M j, Y',strtotime($Reminder['date']));
+		$message .= "\n".$Reminder['description']."\n\n";
 		mail($to,$subject,$message,$header);
 		
 		$sql->dbQuery("update reminders set flag = '0' where id = '$Reminder[id]'"); // set the reminder to expired
