@@ -1,5 +1,6 @@
 <?php
 require_once('connect.php'); // import page
+require_once('checkreminder.php'); // import reminder checker
 
 if(isset($_REQUEST['submit']))
 {
@@ -8,7 +9,7 @@ if(isset($_REQUEST['submit']))
 		if($_REQUEST['date']<=date('Y-m-d')) // if selected is in future or not?
 		{
 		$flag = '0'; // if it is today or before, make it expired.
-		$message = "Reminder is set expired.";
+		$Status_message = "Reminder is set expired.";
 		}
 		else
 		{
@@ -21,7 +22,7 @@ if(isset($_REQUEST['submit']))
 	}
 	else
 	{
-	$message = "Title or date missing, no reminder added";
+	$Status_message = "Title or date missing, no reminder added";
 	}
 }
 $Result = $sql->dbQuery("select * from reminders order by id desc");
@@ -118,10 +119,7 @@ $Reminder_Result = $sql->dbQuery("SELECT * FROM `reminders` WHERE flag = '1' ");
 			</div>
 			<?php }
 			$sql->dbFreeResult($Result); ?>		
-		</div>	
-	
-		
-			
+		</div>				
 		
 	</div>
 </div>
