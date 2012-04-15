@@ -58,7 +58,7 @@ $Reminder_Result = $sql->dbQuery("SELECT * FROM `reminders` WHERE flag = '1' ");
 		</ul>
 		
 		<div id="tabs-1">
-		<?php if(isset($message)){?><div id="message"><?php echo $message;?></div><?php }
+		<?php if(isset($Status_message)){?><div id="message"><?php echo $Status_message;?></div><?php }
 		
 			$numRows = $sql->dbNumRows($Reminder_Result);
 			if($numRows > 0)
