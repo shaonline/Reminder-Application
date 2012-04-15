@@ -17,10 +17,10 @@ if(isset($_REQUEST['submit']))
 		$desc = addslashes(ucfirst($_REQUEST['description']));	
 		
 	$sql->dbQuery("update reminders set title='$title',description='$desc',date='$_REQUEST[date]',flag='$flag' where id = '$_GET[id]'");
-	$Message = 'Updated!';
+	$Status_message = 'Updated!';
 	}
 	else {
-	$Message = 'Updation unsuccesful, Title or date missing!';
+	$Status_message = 'Updation unsuccesful, Title or date missing!';
 	}
 
 }
@@ -41,11 +41,12 @@ $sql->dbFreeResult($result);?>
 <script src="js/jquery.ui.tabs.js"></script>	
 <script>
 		$(function() {
-					$( "#tabs" ).tabs();
-				});
-				$(function() {
+		$( "#tabs" ).tabs();
+		});
+		
+		$(function() {
 		$( "#date" ).datepicker();
-	});	
+		});	
 </script>
 </head>
 <body>
@@ -58,7 +59,7 @@ $sql->dbFreeResult($result);?>
 		</ul>
 		
 		<div id="tabs-1">
-		<div id="message"><?php if(isset($Message)){ echo $Message;}?></div>
+		<div id="message"><?php if(isset($Status_message)){ echo $Status_message;}?></div>
 
 			<p><?php echo $row['title']?></p>
 			<p><?php echo $row['description']?></p>
@@ -90,9 +91,9 @@ $sql->dbFreeResult($result);?>
 	  </tr>
 	</table>
 	</form>
-	</div>
-	
 		</div>
+	
 	</div>
+</div>
 </body>
 </html>
