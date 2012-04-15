@@ -7,7 +7,7 @@ $to = ''; // an email address is required to be given here.
 $header = 'From: Reminder System \nContent-Type: text/plain';
 
 // the following query selects only those reminders which are set today
-$Reminder_Result = $sql->dbQuery("select * from reminders where date='".date('Y-m-d')."'" and flag = '1'); 
+$Reminder_Result = $sql->dbQuery("select * from reminders where date='".date('Y-m-d')."' and flag = '1'"); 
 $NumOfResult = $sql->dbNumRows($Reminder_Result);
 
 if($NumOfResult > 0) // check, if there is some result? 
